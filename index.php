@@ -1,5 +1,6 @@
 <?php
 require_once 'classes/classes.php';
+require_once 'classes/api.php';
 
 $apiPelicula = new ApiPelicula('https://whenisthenextmcufilm.com/api');
 $data = $apiPelicula->obtenerDatos();
