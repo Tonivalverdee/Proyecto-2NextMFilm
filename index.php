@@ -1,7 +1,7 @@
 <?php
-require_once 'classes.php';
+require_once 'classes/classes.php';
 
-$apiPelicula = new ApiPelicula();
+$apiPelicula = new ApiPelicula('https://whenisthenextmcufilm.com/api');
 $data = $apiPelicula->obtenerDatos();
 
 $peliculaActual = $apiPelicula->Pelicula($data);
@@ -19,6 +19,7 @@ $peliculaSiguiente = $apiPelicula->PeliculaSiguiente($data);
     <link rel="icon" href="./logo-marvel.jpg">
 </head>
 <body>
+    <a id="boton" href="../index.php"><button class="btn btn-primary">Volver</button></a>
     <br><br>
     <div class="container movie-container">
         <?= $peliculaActual->mostrarDetalles(); ?>

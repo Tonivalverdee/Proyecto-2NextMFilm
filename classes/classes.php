@@ -1,19 +1,20 @@
 <?php
-// classes.php
-class Pelicula {
-    public $titulo;
-    public $fechaEstreno;
-    public $diasHastaEstreno;
-    public $posterUrl;
+declare(strict_types=1);
 
-    public function __construct($titulo, $fechaEstreno, $diasHastaEstreno, $posterUrl) {
+class Pelicula {
+    public string $titulo;
+    public string $fechaEstreno;
+    public int $diasHastaEstreno;
+    public string $posterUrl;
+
+    public function __construct(string $titulo, string $fechaEstreno, int $diasHastaEstreno, string $posterUrl) {
         $this->titulo = $titulo;
         $this->fechaEstreno = $fechaEstreno;
         $this->diasHastaEstreno = $diasHastaEstreno;
         $this->posterUrl = $posterUrl;
     }
 
-    public function mostrarDetalles() {
+    public function mostrarDetalles(): string {
         return "<img src='{$this->posterUrl}' alt='{$this->titulo}'>
                 <h2>{$this->titulo} se estrena en {$this->diasHastaEstreno} días</h2>
                 <p class='fs5'>Fecha de estreno: <strong>{$this->fechaEstreno}</strong></p>";
@@ -21,14 +22,18 @@ class Pelicula {
 }
 
 class ApiPelicula {
-    const API_URL = "https://whenisthenextmcufilm.com/api";
+    private string $api_url;
 
-    public function obtenerDatos() {
-        $result = file_get_contents(self::API_URL);
+    public function __construct(string $api_url) {
+        $this->api_url = $api_url;
+    }
+
+    public function obtenerDatos(): array {
+        $result = file_get_contents($this->api_url);
         return json_decode($result, true);
     }
 
-    public function Pelicula($data) {
+    public function Pelicula(array $data): Pelicula {
         return new Pelicula(
             $data["title"],
             $data["release_date"],
@@ -37,7 +42,7 @@ class ApiPelicula {
         );
     }
 
-    public function PeliculaSiguiente($data) {
+    public function PeliculaSiguiente(array $data): Pelicula {
         return new Pelicula(
             $data["following_production"]["title"],
             $data["following_production"]["release_date"],
